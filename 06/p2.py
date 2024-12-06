@@ -16,7 +16,6 @@ def update(guard_pos, guard_dir, grid):
     else:
         return(new_pos, guard_dir)
 
-
 with open("input", 'r') as f:
 
     lines = [x.strip() for x in f.readlines()]
@@ -37,37 +36,36 @@ with open("input", 'r') as f:
 
     guard_pos_hist = set()
 
-    guard_pos_hist.add((guard_pos, guard_dir))
+    guard_pos_hist.add(guard_pos)
 
-    n_loops = 0
-    loops_pos = set()
-    start_pos = guard_pos
+    start_pos = (guard_pos, guard_dir)
 
     while True:
-        prev_pos = guard_pos
-        prev_dir = guard_dir
         guard_pos, guard_dir = update(guard_pos, guard_dir, grid)
         if grid[guard_pos] == '':
             break
-        guard_pos_hist.add((guard_pos, guard_dir))
+        guard_pos_hist.add(guard_pos)
 
-        ###
-        if guard_pos != start_pos and prev_pos != guard_pos:
-            g = grid.copy()
-            g[guard_pos] = '#'
-            g_pos_hist = set()
-            while True:
-                n = len(g_pos_hist)
-                prev_pos, prev_dir = update(prev_pos, prev_dir, g)
-                if g[prev_pos] == '':
-                    break
-                g_pos_hist.add((prev_pos, prev_dir))
-                if len(g_pos_hist) == n:
-                    # print(g_pos_hist)
-                    # print(guard_pos)
-                    n_loops += 1
-                    loops_pos.add(guard_pos)
-                    break
+    print(len(guard_pos_hist))
 
-print(len(loops_pos))
-print(n_loops)
+    n_loops = 0
+
+    guard_pos_hist.remove(start_pos[0])
+    for p in guard_pos_hist:
+        g = grid.copy()
+        g[p] = "#"
+        
+        g_pos_hist = set()
+        guard_pos = start_pos[0]
+        guard_dir = 0
+        while True:
+            guard_pos, guard_dir = update(guard_pos, guard_dir, g)
+            if g[guard_pos] == '':
+                break
+            if (guard_pos, guard_dir) in g_pos_hist:
+                n_loops += 1
+                break
+            else:
+                g_pos_hist.add((guard_pos, guard_dir))
+    
+    print(n_loops)
