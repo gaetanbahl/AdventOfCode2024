@@ -1,8 +1,8 @@
 import math
 
 def concat(n, m):
-    l = math.floor(math.log(m, 10))
-    return int(n * math.pow(10, l+1) + m)
+    l = math.ceil(math.log(m, 10))
+    return int(n * math.pow(10, l) + m)
 
 def bfs(target, operands):
 
@@ -13,6 +13,7 @@ def bfs(target, operands):
 
         operand = operands.pop(0)
         totals = [x * operand for x in totals] + [x + operand for x in totals] + [concat(x, operand) for x in totals]
+        # totals = [x * operand for x in totals] + [x + operand for x in totals] + [int(f"{x}{operand}")  for x in totals]
 
     if target in totals:
         return target

@@ -32,11 +32,10 @@ with open("input", 'r') as f:
 
         moved = False
         for e in empty_spaces:
+            empty_space_pos, empty_space_size = e
 
-            if e[1] >= length:
+            if empty_space_size >= length:
                 empty_spaces.remove(e)
-
-                empty_space_pos, empty_space_size = e
 
                 new_f = (empty_space_pos, id, length)
                 updated_files.append(new_f)
