@@ -1,5 +1,3 @@
-import math
-
 N_BLINKS = 25
     
 def n_digits(s):
