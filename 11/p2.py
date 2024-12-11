@@ -5,15 +5,18 @@ from functools import cache
 sys.setrecursionlimit(1000)
 
 N_BLINKS = 75
-    
+
+@cache
 def n_digits(s):
     if s < 10:
         return 1
     else:
         return 1 + n_digits(s//10)
 
-def split(s, a):
+@cache
+def split(s):
     s = str(s)
+    a = len(s)//2
     return (int(s[:a]), int(s[a:]))
 
 @cache
@@ -25,7 +28,7 @@ def comp(s, depth):
         if s == 0:
             return comp(1, depth-1)
         elif (n := n_digits(s)) % 2 == 0 :
-            s1, s2 = split(s, n//2)
+            s1, s2 = split(s)
             return comp(s1, depth-1) + comp(s2, depth-1)
         else:
             return comp(s*2024, depth-1)
